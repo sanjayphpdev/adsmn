@@ -1,5 +1,5 @@
 const db = require("../models");
-const { Op, fn, col, where } = require("sequelize");
+const { Op, fn, col, where, literal } = require("sequelize");
 const Score = db.scores;
 class ScoreService {
   async checkScoreLimit(userID) {
@@ -29,6 +29,26 @@ class ScoreService {
       return scoreEntry;
     } catch (error) {
       //console.error("Error creating score entries:", error);
+      throw error;
+    }
+  }
+
+  async getSelfRankAndTotal(userId) {
+    try {
+      const results = await Score.findAll({
+        attributes: [
+          [fn("SUM", col("score")), "total_score"],
+          [literal("RANK() OVER (ORDER BY SUM(score) DESC)"), "rank"],
+        ],
+        group: ["user_id"],
+        order: [[literal("rank"), "ASC"]],
+        where: userId ? { user_id: userId } : undefined,
+      });
+
+      //console.log("Results:", results);
+      return results[0];
+    } catch (error) {
+      console.error("Error fetching rank and total score:", error);
       throw error;
     }
   }
