@@ -28,7 +28,7 @@ const decryptUserIdMiddleware = async (req, res, next) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    // Attach the user object to the request for downstream handlers
+    // Attach the user object to the request
     req.user = user;
     req.user_id = userId;
     // Proceed to the next middleware or route handler

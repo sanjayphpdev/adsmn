@@ -1,4 +1,9 @@
-const { checkScoreLimit, createScore } = require("../services/scoreService");
+const {
+  checkScoreLimit,
+  createScore,
+  getSelfRankAndTotal,
+} = require("../services/scoreService");
+
 const { scoreRequestSchema } = require("../utility/validationHelper");
 const { z } = require("zod");
 const saveScore = async (req, res) => {
@@ -36,6 +41,23 @@ const saveScore = async (req, res) => {
   }
 };
 
+const getUserRankAndTotal = async (req, res) => {
+  try {
+    const userId = req.user_id;
+    const selfScoreOverview = await getSelfRankAndTotal(userId);
+    //console.log(selfScoreOverview);
+    if (selfScoreOverview) {
+      //const { total_score, rank } = selfScoreOverview.total_score;
+      res.status(200).json({ success: true, data: selfScoreOverview });
+    } else {
+      res.status(200).json({ success: false });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   saveScore,
+  getUserRankAndTotal,
 };
