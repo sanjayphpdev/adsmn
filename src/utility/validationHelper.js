@@ -20,4 +20,16 @@ const otpTokenRequired = z.object({
   otp_token: z.string().min(10, "Token is required"),
 });
 
-module.exports = { validateMobile, userRequestSchema, otpTokenRequired };
+const scoreRequestSchema = z.object({
+  score: z
+    .number()
+    .min(50, "Score must be at least 50")
+    .max(500, "Number must be at most 500"),
+});
+
+module.exports = {
+  validateMobile,
+  userRequestSchema,
+  otpTokenRequired,
+  scoreRequestSchema,
+};
