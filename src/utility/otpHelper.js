@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 
 const SECRET_KEY = process.env.SECRET_KEY;
-const OTP_EXPIRY_TIME = 60 * 5000; // 1 minute in milliseconds
+const OTP_EXPIRY_TIME = 60 * 1000; // 1 minute in milliseconds
 
 /**
  * Generate OTP with expiry
