@@ -1,6 +1,6 @@
 require("dotenv").config();
 const express = require("express");
-const { user, otp } = require("./api");
+const { user, otp, score } = require("./api");
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -8,7 +8,7 @@ app.use(express.urlencoded({ extended: true }));
 //API Routes
 app.use("/api/user", user);
 app.use("/api/otp", otp);
-
+app.use("/api/score", score);
 //Global Error Handler
 app.use((err, req, res, next) => {
   console.log(err.stack);
