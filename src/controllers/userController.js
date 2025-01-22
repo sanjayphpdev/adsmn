@@ -1,4 +1,8 @@
-const { getUserCount, createUser } = require("../services/userService");
+const {
+  getUserCount,
+  createUser,
+  getHashedUserById,
+} = require("../services/userService");
 const { verifyOTP } = require("../utility/otpHelper");
 const {
   userRequestSchema,
@@ -46,7 +50,20 @@ const registerUser = async (req, res) => {
     res.status(500).json({ message: "Something went wrong" });
   }
 };
+/**
+ * Dummy test function to get hashed id of users, dont expose this on production.
+ */
+const getUserHashedId = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const hashedId = await getHashedUserById(userId);
+    res.json({ userId, hashedId });
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
 
 module.exports = {
   registerUser,
+  getUserHashedId,
 };
