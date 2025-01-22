@@ -2,6 +2,7 @@ const {
   checkScoreLimit,
   createScore,
   getSelfRankAndTotal,
+  getWeeklySelfRankAndTotal,
 } = require("../services/scoreService");
 
 const { scoreRequestSchema } = require("../utility/validationHelper");
@@ -57,7 +58,24 @@ const getUserRankAndTotal = async (req, res) => {
   }
 };
 
+const getWeeklyUserRankAndTotal = async (req, res) => {
+  try {
+    const userId = req.user_id;
+    const selfScoreOverview = await getWeeklySelfRankAndTotal(userId);
+    //console.log(selfScoreOverview);
+    if (selfScoreOverview) {
+      //const { total_score, rank } = selfScoreOverview.total_score;
+      res.status(200).json({ success: true, weeks: selfScoreOverview });
+    } else {
+      res.status(200).json({ success: false });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   saveScore,
   getUserRankAndTotal,
+  getWeeklyUserRankAndTotal,
 };
