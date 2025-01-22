@@ -1,0 +1,198 @@
+{
+	"info": {
+		"_postman_id": "4e0923b3-daa4-4930-beed-c6640acdff2c",
+		"name": "ADSMN",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37432522"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Register User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "otp_token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtb2JpbGVOdW1iZXIiOiI4ODAyMjUxMDEwIiwib3RwIjoiMTIzNCIsImV4cCI6MTczNzQzMDgyMzQ3OSwiaWF0IjoxNzM3NDMwNTIzfQ.EFzVqPeTb5RZ1ftVZR0eYJ07Atm1vyl2VTUjROiVHIc",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"name\":\"Sanjay\",\"mobileNumber\":\"8802251010\",\"dob\":\"1987-01-20\",\"email\":\"sanjay123@gmail.com\",\"otp\":\"1234\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/user/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"user",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Hashed ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/user/dev/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"user",
+								"dev",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Scores",
+			"item": [
+				{
+					"name": "Create Score",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"encryptedUserId\":\"ea7bb822c386eb52830b3bdf3c5ab367:62550ca7877a39ed115dd3a76f46b033\",\"score\":500}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/score/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"score",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "self score",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"encryptedUserId\":\"80bc8ad528980c859ddd37dea4b69dff:70880048feca608ea11d5661ebba4ebf\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/score/overview",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"score",
+								"overview"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "weekly score",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"encryptedUserId\":\"18bee70d9ff6835033ed88033ad08402:ad56414ee48cec58bd1886a15ba08dba\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/score/weekly",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"score",
+								"weekly"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Send OTP",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"mobileNumber\":\"8802251010\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/otp/send",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"otp",
+						"send"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
