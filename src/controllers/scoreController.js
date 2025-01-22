@@ -14,7 +14,7 @@ const saveScore = async (req, res) => {
     //console.log(`ID = ${id}, score = ${score}`);
     let todayScoreEntryCount = await checkScoreLimit(id);
 
-    if (todayScoreEntryCount <= process.env.SCORE_LIMIT) {
+    if (todayScoreEntryCount < process.env.SCORE_LIMIT) {
       const newEntry = await createScore({ user_id: id, score });
       if (newEntry) {
         res.status(200).json({ success: true, message: "Score added" });
