@@ -51,6 +51,24 @@ select user_id, sum(score) as total_score, dense_rank() over (order by sum(score
       throw error;
     }
   }
+
+  async getWeeklySelfRankAndTotal(userId) {
+    try {
+      const result = await db.sequelize.query(
+        `select weekNo,rank,totalScore from (
+select week(created_at) as weekNo,user_id,sum(score) as totalScore, dense_rank() over (order by sum(score) desc) as rank from scores group by week(created_at),user_id
+) as overAllWeekScore where user_id= :user_id`,
+        {
+          replacements: { user_id: userId },
+          type: QueryTypes.SELECT,
+        }
+      );
+      return result;
+    } catch (error) {
+      console.error("Error fetching rank and total score:", error);
+      throw error;
+    }
+  }
 }
 
 module.exports = new ScoreService();
