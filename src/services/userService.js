@@ -31,6 +31,15 @@ class UserService {
       throw error;
     }
   }
+
+  async getHashedUserById(userId) {
+    try {
+      const userData = await User.findByPk(userId);
+      return userData.id;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 module.exports = new UserService();
