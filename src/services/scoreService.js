@@ -37,8 +37,8 @@ class ScoreService {
   async getSelfRankAndTotal(userId) {
     try {
       const result = await db.sequelize.query(
-        `select total_score,rank from (
-select user_id, sum(score) as total_score, dense_rank() over (order by sum(score) desc) as rank from scores group by user_id
+        `select CAST (total_score AS UNSIGNED) total_score,rankPos as 'rank' from (
+select user_id, sum(score) as total_score, dense_rank() over (order by sum(score) desc) as rankPos from scores group by user_id
 ) as overAllScore where user_id= :user_id`,
         {
           replacements: { user_id: userId },
@@ -54,31 +54,22 @@ select user_id, sum(score) as total_score, dense_rank() over (order by sum(score
 
   async getWeeklySelfRankAndTotal(userId) {
     try {
-      /*
       const result = await db.sequelize.query(
-        `select weekNo,rank,totalScore from (
-select week(created_at) as weekNo,user_id,sum(score) as totalScore, dense_rank() over (order by sum(score) desc) as rank from scores group by week(created_at),user_id
-) as overAllWeekScore where user_id= :user_id`,
-        {
-          replacements: { user_id: userId },
-          type: QueryTypes.SELECT,
-        }
-      );
-      */
-      const result = await db.sequelize.query(
-        `WITH custom_weeks AS (
-              SELECT 
-                user_id,
-                SUM(score) AS totalScore,
-                DENSE_RANK() OVER (PARTITION BY weekNum ORDER BY SUM(score) DESC) AS rank,
-                CEIL(DATEDIFF(created_at, '2024-03-01') / 7) + 1 AS weekNum
-              FROM scores
-              WHERE created_at >= '2024-03-01'
-              GROUP BY weekNum, user_id
+        `select weekNum,totalScore,rankPos as 'rank' from (
+            WITH custom_weeks AS (
+                SELECT 
+                  user_id,
+                  SUM(score) AS totalScore,
+                  CEIL(DATEDIFF(created_at, '2024-03-01') / 7) + 1 AS weekNum 
+                FROM scores
+                WHERE created_at >= '2024-03-01' 
+                GROUP BY weekNum, user_id
               )
-              SELECT  weekNum,rank,totalScore
-              FROM custom_weeks 
-              WHERE user_id = :user_id`,
+              SELECT user_id,
+                weekNum,
+                CAST (totalScore AS UNSIGNED) totalScore,
+                DENSE_RANK() OVER (PARTITION BY weekNum ORDER BY totalScore DESC) AS rankPos
+              FROM custom_weeks) as weeklyScore where user_id=:user_id`,
         {
           replacements: { user_id: userId },
           type: QueryTypes.SELECT,
