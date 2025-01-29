@@ -60,7 +60,7 @@ select user_id, sum(score) as total_score, dense_rank() over (order by sum(score
                 SELECT 
                   user_id,
                   SUM(score) AS totalScore,
-                  CEIL(DATEDIFF(created_at, '2024-03-01') / 7) + 1 AS weekNum 
+                  FLOOR(DATEDIFF(created_at, '2024-03-01') / 7) + 1 AS weekNum 
                 FROM scores
                 WHERE created_at >= '2024-03-01' 
                 GROUP BY weekNum, user_id
